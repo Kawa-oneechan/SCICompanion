@@ -228,7 +228,9 @@ void NewGameDialog::OnBnClickedOk()
 			helper.GameFolder = szPath;
 			helper.SetIniString(GameSection, LanguageKey, (lang == LangSyntaxSCI) ? LanguageValueSCI : LanguageValueStudio);
 
-			helper.SetIniString(GameSection, CodepageKey, (m_wndComboLanguage.GetCurSel() == 1) ? "1252" : "437");
+			// helper.SetIniString(GameSection, CodepageKey, (m_wndComboLanguage.GetCurSel() == 1) ? "1252" : "437");
+			helper.SetIniString(GameSection, CodepageKey, (m_wndComboLanguage.GetCurSel() == 2) ? "1252" : 
+														   (m_wndComboLanguage.GetCurSel() == 1 ? "850" : "437"));
 		}
 		if (!fContinue)
 		{
