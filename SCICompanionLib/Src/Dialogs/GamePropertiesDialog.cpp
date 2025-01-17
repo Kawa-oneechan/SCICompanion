@@ -65,8 +65,8 @@ void CGamePropertiesDialog::DoDataExchange(CDataExchange* pDX)
 
 	// Change for accepting Codepage 850
 	// m_wndComboLanguage.SetCurSel(appState->GetResourceMap().Helper().GetCodepage() == 1252 ? 2 : 1);
-	m_wndComboLanguage.SetCurSel(appState->GetResourceMap().Helper().GetCodepage() == 1252 ? 2 :
-									(appState->GetResourceMap().Helper().GetCodepage() == 850 ? 1 : 0));
+	int intCP = appState->GetResourceMap().Helper().GetCodepage();
+	m_wndComboLanguage.SetCurSel(intCP == 1252 ? 2 : (intCP == 850 ? 1 : 0));
 	
 	DDX_Control(pDX, IDC_STATICPROFILE, m_wndStaticProfile);
 	DDX_Control(pDX, IDC_COMBOPROFILE, m_wndComboProfile);
