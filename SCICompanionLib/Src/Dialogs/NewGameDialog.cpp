@@ -125,7 +125,9 @@ void NewGameDialog::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_STATIC4, m_wndStatic4);
 	DDX_Control(pDX, IDC_COMBOLANGUAGE, m_wndComboLanguage);
-	m_wndComboLanguage.SetCurSel(1); //assume Win-1252 for new games
+	//m_wndComboLanguage.SetCurSel(1); //assume Win-1252 for new games
+	m_wndComboLanguage.SetCurSel(2); //assume Win-1252 for new games
+
 //#ifdef DISABLE_STUDIO
 //	m_wndComboLanguage.EnableWindow(FALSE);
 //#endif
@@ -229,8 +231,8 @@ void NewGameDialog::OnBnClickedOk()
 			helper.SetIniString(GameSection, LanguageKey, (lang == LangSyntaxSCI) ? LanguageValueSCI : LanguageValueStudio);
 
 			// helper.SetIniString(GameSection, CodepageKey, (m_wndComboLanguage.GetCurSel() == 1) ? "1252" : "437");
-			helper.SetIniString(GameSection, CodepageKey, (m_wndComboLanguage.GetCurSel() == 2) ? "1252" : 
-														   (m_wndComboLanguage.GetCurSel() == 1 ? "850" : "437"));
+			int cbCurSel = m_wndComboLanguage.GetCurSel();
+			helper.SetIniString(GameSection, CodepageKey, (cbCurSel == 2) ? "1252" : (cbCurSel == 1 ? "850" : "437"));
 		}
 		if (!fContinue)
 		{

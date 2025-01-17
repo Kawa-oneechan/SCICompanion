@@ -211,8 +211,8 @@ void CGamePropertiesDialog::OnOK()
 	}
 	*/
 	//appState->GetResourceMap().Helper().SetCodepage(m_wndComboLanguage.GetCurSel() == 1 ? 1252 : 437);
-	appState->GetResourceMap().Helper().SetCodepage(m_wndComboLanguage.GetCurSel() == 2 ? 1252 : 
-													m_wndComboLanguage.GetCurSel() == 1 ? 850 : 437);
+	int cbCurSel = m_wndComboLanguage.GetCurSel();
+	appState->GetResourceMap().Helper().SetCodepage(cbCurSel == 2 ? 1252 : (cbCurSel == 1 ? 850 : 437));
 
 	bool unditherEGA = m_wndCheckUnditherEGA.GetCheck() == BST_CHECKED;
 	if (unditherEGA != _fUnditherStart)
