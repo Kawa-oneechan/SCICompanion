@@ -15,6 +15,7 @@
 #include "Font.h"
 #include "RasterOperations.h"
 #include "ResourceEntity.h"
+#include "Text.h"
 
 using namespace std;
 
@@ -194,6 +195,7 @@ EGACOLOR egaFontPalette[] =
 
 void GetCharacterLabel(PTSTR  pszLabel, size_t cch, int nCel)
 {
+	cch = 13;
 	if (nCel < 32)
 	{
 #ifdef ENABLE_FONTNUMSINHEX
@@ -201,13 +203,21 @@ void GetCharacterLabel(PTSTR  pszLabel, size_t cch, int nCel)
 	}
 	else
 	{
-		StringCchPrintf(pszLabel, cch, TEXT("%c (%X)"), nCel, nCel);
+		if (nCel < 0x80)
+			StringCchPrintf(pszLabel, cch, TEXT("%c (%X)"), nCel, nCel);
+		else
+			StringCchPrintf(pszLabel, cch, TEXT("%c  %c  (%X)"), nCel, Dos2WinChar(nCel), nCel);
+		//StringCchPrintf(pszLabel, cch, TEXT("%c (%X)"), nCel, nCel);
 #else
 		StringCchPrintf(pszLabel, cch, TEXT("(%d)"), nCel);
 	}
 	else
 	{
-		StringCchPrintf(pszLabel, cch, TEXT("%c (%d)"), nCel, nCel);
+		if (nCel < 0x80)
+			StringCchPrintf(pszLabel, cch, TEXT("%c (%d)"), nCel, nCel);
+		else
+			StringCchPrintf(pszLabel, cch, TEXT("%c  %c  (%d)"), nCel, Dos2WinChar(nCel), nCel);
+		//StringCchPrintf(pszLabel, cch, TEXT("%c (%d)"), nCel, nCel);
 #endif
 	}
 }
