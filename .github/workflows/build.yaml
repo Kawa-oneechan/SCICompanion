@@ -13,11 +13,11 @@ jobs:
         platform: [Win32]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     # Add msbuild action
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
 
     # Install VS 2015 (Platform Tools v140), and Windows 8.1 SDK. See: https://stackoverflow.com/a/74673996/953887
     - name: Install MSVC 2015 (v140) and Windows 8.1 SDK
@@ -43,7 +43,7 @@ jobs:
         }
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: SCICompanion-${{ matrix.configuration }}-${{ matrix.platform }}-${{ github.sha }}
         path: artifacts

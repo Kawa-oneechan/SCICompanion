@@ -12,7 +12,7 @@ jobs:
     outputs:
       should_execute: ${{ steps.should_execute_step.outputs.should_execute }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get tags
         run: git fetch --tags origin
@@ -44,7 +44,7 @@ jobs:
 
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: release-artifacts/
 

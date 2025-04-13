@@ -72,7 +72,7 @@ public:
 private:
 	WORD _wNameIndex;
 	WORD _wValue;
-	bool _fNeedsReloc;
+	bool _fNeedsReloc { false };
 };
 
 class CSCOObjectClass
