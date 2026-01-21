@@ -96,3 +96,6 @@ ResourceEntity *CreateDefaultTextResource(SCIVersion version);
 
 std::string Dos2Win(std::string &str);
 std::string Win2Dos(const std::string &str);
+
+// Function to help search a byte in Dos/Windows conversion tables.
+unsigned char Dos2WinChar(unsigned char uWinChar);

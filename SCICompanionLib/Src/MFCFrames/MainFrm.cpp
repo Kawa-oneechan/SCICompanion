@@ -1741,6 +1741,7 @@ const TCHAR* g_szResourceSpecByType[(int)ResourceType::Max] =
 	PATCH_FILE_HEAP
 };
 
+/*
 const TCHAR g_szResourceFilter[] = TEXT("All resources|" PATCH_FILE_TYPES "||"
 	"Pics (pic.*)|pic.*;*.p56||"
 	"Views (view.*)|view.*;*.v56||"
@@ -1756,6 +1757,23 @@ const TCHAR g_szResourceFilter[] = TEXT("All resources|" PATCH_FILE_TYPES "||"
 	"Audio (*.aud)|*.aud||"
 	"CD Audio (*.cda)|*.cda||"
 	"All files (*.*)|*.*||");
+*/
+
+const TCHAR g_szResourceFilter[] = TEXT("All resources|" PATCH_FILE_TYPES "|"
+	"Pics|pic.*;*.p56|"
+	"Views|view.*;*.v56|"
+	"Vocabs|vocab.*;*.voc|"
+	"Fonts|font.*;*.fon|"
+	"Cursors|cursor.*;*.cur|"
+	"Texts|text.*;*.tex|"
+	"Sounds|sound.*;*.snd|"
+	"Patches|patch.*;*.pat|"
+	"Scripts|script.*;*.scr|"
+	"Messages|*.msg|"
+	"Palettes|*.pal|"
+	"Audio|*.aud|"
+	"CD Audio|*.cda|"
+	"All files|*.*|");
 
 //
 // Opens a resource from a file

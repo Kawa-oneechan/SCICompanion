@@ -38,6 +38,7 @@ const std::string FalseValue = "false";
 const std::string GenerateDebugInfoKey = "GenerateDebugInfo";
 const std::string CodepageKey = "Codepage";
 const std::string CodePage437 = "437";
+const std::string CodePage850 = "850";
 const std::string CodePage1252 = "1252";
 
 // Returns "n004" for input of 4
@@ -281,11 +282,12 @@ int GameFolderHelper::GetCodepage() const
 	//assume DOS-437 because old games
 	std::string value = GetIniString(GameSection, CodepageKey, CodePage437.c_str());
 	std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-	return value == CodePage1252 ? 1252 : 437;
+	return value == CodePage1252 ? 1252 : (value == CodePage850 ? 850 : 437);
 }
 void GameFolderHelper::SetCodepage(int codepage) const
 {
-	SetIniString(GameSection, CodepageKey, codepage == 1252 ? CodePage1252 : CodePage437);
+	//SetIniString(GameSection, CodepageKey, codepage == 1252 ? CodePage1252 : CodePage437);
+	SetIniString(GameSection, CodepageKey, (codepage == 1252) ? CodePage1252 : (codepage == 850 ? CodePage850 : CodePage437));
 }
 
 bool GameFolderHelper::GetGenerateDebugInfo() const
