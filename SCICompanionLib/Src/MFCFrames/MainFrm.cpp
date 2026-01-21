@@ -69,7 +69,7 @@
 #include <filesystem>
 #include <regex>
 
-using namespace std::tr2::sys;
+using namespace std::filesystem;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

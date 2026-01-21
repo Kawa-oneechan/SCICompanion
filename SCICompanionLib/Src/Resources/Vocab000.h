@@ -64,7 +64,7 @@ public:
 
 	typedef DWORD WordGroup;
 
-	typedef std::unordered_map<std::string, WordGroup> word2group_map;
+	typedef std::map<std::string, WordGroup> word2group_map;
 	typedef std::unordered_map<WordGroup, std::string> group2words_map;
 	typedef std::unordered_map<WordGroup, WordClass> group2class_map;
 

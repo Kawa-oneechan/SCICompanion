@@ -388,9 +388,11 @@ void CResourceMap::AbortPostBuildThread()
 void CResourceMap::PokeResourceMapReloaded()
 {
 	// Refresh everything.
-	for_each(_syncs.begin(), _syncs.end(), bind2nd(mem_fun(&IResourceMapEvents::OnResourceMapReloaded), false));
+	for (auto& sync : _syncs)
+	{
+		sync->OnResourceMapReloaded(false);
+	}
 }
-
 void CResourceMap::StartDebuggerThread(int optionalResourceNumber)
 {
 	AbortDebuggerThread();
@@ -661,12 +663,19 @@ void CResourceMap::_SniffSCIVersion()
 
 void CResourceMap::NotifyToRegenerateImages()
 {
-	for_each(_syncs.begin(), _syncs.end(), mem_fun(&IResourceMapEvents::OnImagesInvalidated));
+	for (auto& sync : _syncs)
+	{
+		sync->OnImagesInvalidated();
+	}
 }
 
 void CResourceMap::NotifyToReloadResourceType(ResourceType iType)
 {
-	for_each(_syncs.begin(), _syncs.end(), bind2nd(mem_fun(&IResourceMapEvents::OnResourceTypeReloaded), iType));
+	for (auto& sync : _syncs)
+	{
+		sync->OnResourceTypeReloaded(iType);
+	}
+
 	if (iType == ResourceType::Palette)
 	{
 		_paletteListNeedsUpdate = true;
@@ -726,7 +735,11 @@ void CResourceMap::DeleteResource(const ResourceBlob *pData)
 		_globalCompiledScriptLookups.reset(nullptr);
 	}
 
-	for_each(_syncs.begin(), _syncs.end(), bind2nd(mem_fun(&IResourceMapEvents::OnResourceDeleted), pData));
+	for (auto& sync : _syncs)
+	{
+		sync->OnResourceDeleted(pData);
+	}
+
 	if (pData->GetType() == ResourceType::Palette)
 	{
 		_paletteListNeedsUpdate = true;
@@ -1278,7 +1291,10 @@ void CResourceMap::SetGameFolder(const string &gameFolder)
 			_SniffSCIVersion();
 
 			// Send initial load notification
-			for_each(_syncs.begin(), _syncs.end(), bind2nd(mem_fun(&IResourceMapEvents::OnResourceMapReloaded), true));
+			for (auto& sync : _syncs)
+			{
+				sync->OnResourceMapReloaded(true);
+			}
 
 			_paletteListNeedsUpdate = true;
 		}

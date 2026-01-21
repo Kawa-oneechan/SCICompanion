@@ -55,8 +55,12 @@ bool CompileLog::HasErrors()
 void CompileLog::CalculateErrors()
 {
 	// Calculate errors;
-	_cErrors += (int)count_if(_compileResults.begin(), _compileResults.end(), mem_fun_ref(&CompileResult::IsError));
-	_cWarnings += (int)count_if(_compileResults.begin(), _compileResults.end(), mem_fun_ref(&CompileResult::IsWarning));
+
+	for (auto& result : _compileResults)
+	{
+		if (result.IsError()) _cErrors++;
+		if (result.IsWarning()) _cWarnings++;
+	}
 }
 
 

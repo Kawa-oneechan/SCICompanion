@@ -59,7 +59,7 @@ class SCIClassBrowser;
 class ISourceCodePosition;
 class CompileContext;
 
-typedef std::unordered_map<std::string, sci::Define*> defines_map;
+typedef std::map<std::string, sci::Define*> defines_map;
 typedef std::multimap<std::string, code_pos> ref_multimap;
 typedef std::pair<code_pos, WORD> call_pair;
 
@@ -93,8 +93,8 @@ public:
 
 	bool LookupDefine(const std::string &str, WORD &wValue);
 private:
-	typedef std::unordered_map<std::string, sci::Define*> defines_map;
-	typedef std::unordered_map<std::string, std::unique_ptr<sci::Script>> header_map;
+	typedef std::map<std::string, sci::Define*> defines_map;
+	typedef std::map<std::string, std::unique_ptr<sci::Script>> header_map;
 
 	// Filename (not full path) which maps a header to its Script object.
 	header_map _allHeaders;
@@ -395,7 +395,7 @@ private:
 };
 
 template<typename T>
-class GenericOutputByteCode2 : public std::unary_function<std::unique_ptr<T>, void>
+class GenericOutputByteCode2
 {
 public:
 	GenericOutputByteCode2(CompileContext &context) : _context(context) {}
@@ -438,7 +438,7 @@ private:
 };
 
 
-class GenericOutputByteCode : public std::unary_function<IOutputByteCode*, void>
+class GenericOutputByteCode
 {
 public:
 	GenericOutputByteCode(CompileContext &context) : _context(context) {}

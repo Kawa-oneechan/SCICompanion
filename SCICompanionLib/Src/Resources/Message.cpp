@@ -19,8 +19,6 @@
 #include "NounsAndCases.h"
 #include "ResourceSourceFlags.h"
 
-using namespace std;
-
 void ResolveReferences(TextComponent &messageComponent)
 {
 	int messageCount = messageComponent.Texts.size();
@@ -309,32 +307,32 @@ std::vector<std::string> split(const std::string& value, char separator)
 
 void ExportMessageToFile(const TextComponent &message, const std::string &filename)
 {
-	ofstream file;
-	file.open(filename, ios_base::out | ios_base::trunc);
+	std::ofstream file;
+	file.open(filename, std::ios_base::out | std::ios_base::trunc);
 	if (file.is_open())
 	{
 		for (const auto &entry : message.Texts)
 		{
-			string firstPart = fmt::format("{0}\t{1}\t{2}\t{3}\t{4}\t", (int)entry.Noun, (int)entry.Verb, (int)entry.Condition, (int)entry.Sequence, (int)entry.Talker);
+			std::string firstPart = fmt::format("{0}\t{1}\t{2}\t{3}\t{4}\t", (int)entry.Noun, (int)entry.Verb, (int)entry.Condition, (int)entry.Sequence, (int)entry.Talker);
 			file << firstPart;
 			// Split by line to match SV.exe's output
-			vector<string> lines = split(entry.Text, '\n');
+			std::vector<std::string> lines = split(entry.Text, '\n');
 			int lineNumber = 0;
-			for (const string &line : lines)
+			for (const std::string &line : lines)
 			{
 				if (lineNumber > 0)
 				{
 					file << "\t\t\t\t\t"; // "Empty stuff" before next line (matches SV.exe's output)
 				}
 				file << line;
-				file << endl;
+				file << std::endl;
 				lineNumber++;
 			}
 		}
 	}
 }
 
-void ConcatWithTabs(const vector<string> &pieces, size_t pos, string &text)
+void ConcatWithTabs(const std::vector<std::string> &pieces, size_t pos, std::string &text)
 {
 	while (pos < pieces.size())
 	{
@@ -346,14 +344,14 @@ void ConcatWithTabs(const vector<string> &pieces, size_t pos, string &text)
 
 void ImportMessageFromFile(TextComponent &message, const std::string &filename)
 {
-	ifstream file;
-	file.open(filename, ios_base::in);
+	std::ifstream file;
+	file.open(filename, std::ios_base::in);
 	if (file.is_open())
 	{
-		string line;
+		std::string line;
 		while (std::getline(file, line))
 		{
-			vector<string> linePieces = split(line, '\t');
+			std::vector<std::string> linePieces = split(line, '\t');
 			if (linePieces.size() >= 6)
 			{
 				// If the first 5 are empty, then it's an extension of the previous line
@@ -390,13 +388,13 @@ bool ValidateMessage(const ResourceEntity &resource)
 {
 	// Check for duplicate tuples
 	const TextComponent &text = resource.GetComponent<TextComponent>();
-	unordered_map<uint32_t, const TextEntry *> tuples;
+	std::unordered_map<uint32_t, const TextEntry *> tuples;
 	for (const auto &entry : text.Texts)
 	{
 		uint32_t tuple = GetMessageTuple(entry);
 		if (tuples.find(tuple) != tuples.end())
 		{
-			string message = fmt::format("Entries must be distinct. The following entries have the same noun/verb/condition/sequence:\n{0}\n{1}",
+			std::string message = fmt::format("Entries must be distinct. The following entries have the same noun/verb/condition/sequence:\n{0}\n{1}",
 				entry.Text,
 				tuples[tuple]->Text
 				);
@@ -421,7 +419,7 @@ bool ValidateMessage(const ResourceEntity &resource)
 	{
 		if (!pair.second)
 		{
-			string message = fmt::format("The following mesaage: (noun:{0}, verb:{1}, cond:{2}) has a sequence that doesn't begin at 1. Save anyway?", (pair.first & 0xff), (pair.first >> 8) & 0xff, (pair.first >> 16) & 0xff);
+			std::string message = fmt::format("The following mesaage: (noun:{0}, verb:{1}, cond:{2}) has a sequence that doesn't begin at 1. Save anyway?", (pair.first & 0xff), (pair.first >> 8) & 0xff, (pair.first >> 16) & 0xff);
 			if (IDNO == AfxMessageBox(message.c_str(), MB_YESNO | MB_ICONWARNING))
 			{
 				return false;
@@ -457,7 +455,7 @@ ResourceTraits messageTraits =
 ResourceEntity *CreateMessageResource(SCIVersion version)
 {
 	std::unique_ptr<ResourceEntity> pResource = std::make_unique<ResourceEntity>(messageTraits);
-	pResource->AddComponent(move(make_unique<TextComponent>()));
+	pResource->AddComponent(std::move(std::make_unique<TextComponent>()));
 	switch (version.MessageMapSource)
 	{
 		case MessageMapSource::Included:

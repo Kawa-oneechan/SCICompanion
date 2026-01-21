@@ -33,12 +33,3 @@ public:
 	virtual void AddNonViewClient(INonViewClient *pClient) = 0;
 	virtual void UpdateAllViewsAndNonViews(CView *pSender, LPARAM lHint, CObject *pObject = NULL) = 0;
 };
-
-// stl helper
-struct _UpdateNonView : public std::binary_function<INonViewClient*, CObject*, void>
-{
-	void operator()(INonViewClient *pClient, CObject *pObjec) const
-	{
-		pClient->UpdateNonView(pObjec);
-	}
-};

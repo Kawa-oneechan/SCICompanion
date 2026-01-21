@@ -20,8 +20,6 @@
 #include "SoundUtil.h"
 #include "ResourceSourceFlags.h"
 
-using namespace std;
-
 // Speed work-around for VC 2013:
 // https://randomascii.wordpress.com/2013/11/24/stdmin-causing-three-times-slowdown-on-vc/
 template <class T>
@@ -200,7 +198,7 @@ void AudioReadFromHelper(ResourceEntity &resource, sci::istream &stream, const s
 		streamLipSync >> lipSyncMarker;
 		if (lipSyncMarker == 0x8e)
 		{
-			resource.AddComponent<SyncComponent>(make_unique<SyncComponent>());
+			resource.AddComponent<SyncComponent>(std::make_unique<SyncComponent>());
 			SyncReadFrom(resource, streamLipSync);
 		}
 		// else if it's not 0x8e, then it means this resource is kind of corrupt and *only* has raw lipsync data.
@@ -316,14 +314,14 @@ ResourceTraits waveAudioTraits =
 ResourceEntity *CreateAudioResource(SCIVersion version)
 {
 	std::unique_ptr<ResourceEntity> pResource = std::make_unique<ResourceEntity>(audioTraits);
-	pResource->AddComponent(move(make_unique<AudioComponent>()));
+	pResource->AddComponent(std::move(std::make_unique<AudioComponent>()));
 	return pResource.release();
 }
 
 ResourceEntity *CreateWaveAudioResource(SCIVersion version)
 {
 	std::unique_ptr<ResourceEntity> pResource = std::make_unique<ResourceEntity>(waveAudioTraits);
-	pResource->AddComponent(move(make_unique<AudioComponent>()));
+	pResource->AddComponent(std::move(std::make_unique<AudioComponent>()));
 	return pResource.release();
 }
 
