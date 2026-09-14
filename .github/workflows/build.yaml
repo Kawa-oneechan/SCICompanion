@@ -13,11 +13,11 @@ jobs:
         platform: [Win32]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     # Add msbuild action
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
 
     # Install VS 2015 (Platform Tools v140), and Windows 8.1 SDK. See: https://stackoverflow.com/a/74673996/953887
     - name: Install MSVC 2015 (v140) and Windows 8.1 SDK
