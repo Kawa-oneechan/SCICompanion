@@ -18,6 +18,8 @@ jobs:
     # Add msbuild action
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v3
+      with:
+       vs-version: '[14.0,14.0)'
 
     # Install VS 2015 (Platform Tools v140), and Windows 8.1 SDK. See: https://stackoverflow.com/a/74673996/953887
     - name: Install MSVC 2015 (v140) and Windows 8.1 SDK
