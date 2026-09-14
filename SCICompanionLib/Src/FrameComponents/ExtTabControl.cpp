@@ -215,7 +215,14 @@ BOOL ExtTabControl::OnEraseBkgnd(CDC *pDC)
 	// REVIEW: this is a bit of a hack.  The tab control uses its font to resize itself.
 	// However, we use prof-uis paint manager's font to draw.  This font can change (and be deleted)
 	// when system settings change.  But we don't know when to update it. So do it here.
-	SetFont(&g_PaintManager->m_FontBoldBC);
+	// REVIEWED: this caused an endless loop of WM_ in Wine, so we only update it
+	// when it actually did change.
+	HFONT font = (HFONT)g_PaintManager->m_FontBoldBC.GetSafeHandle();
+	if (lastFont != font)
+	{
+		lastFont = font;
+		SetFont(&g_PaintManager->m_FontBoldBC);
+	}
 
 	CRect rClient, rTab, rTotalTab, rBkgnd, rEdge;
 	int nTab, nTabHeight = 0;
