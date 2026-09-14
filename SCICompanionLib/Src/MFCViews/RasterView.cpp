@@ -1976,6 +1976,9 @@ void CRasterView::_DrawPen(CDC *pDC, CPoint point, uint8_t color, uint8_t altern
 	PenStyle penStyle = GetDoc()->GetPenStyle();
 	if (_EnsurePenBitmap())
 	{
+		//Old Windows-only code. Works fine as-is, but Wine doesn't implement TransparentBlt correctly
+		//and always uses black instead of the text color, making this our problem somehow.
+		/*
 		int penWidth = penStyle.bPatternSize * 2 + 1;
 		int crTextOld = pDC->SetTextColor(_SCIColorToCOLORREF(fUseForeground ? color : alternateColor));
 		CDC dcMem;
@@ -1984,6 +1987,26 @@ void CRasterView::_DrawPen(CDC *pDC, CPoint point, uint8_t color, uint8_t altern
 		pDC->TransparentBlt(point.x - penStyle.bPatternSize, point.y - penStyle.bPatternSize, penWidth, penWidth, &dcMem, 0, 0, penWidth, penWidth, RGB(255, 255, 255));
 		dcMem.SelectObject(hOldBitmap);
 		pDC->SetTextColor(crTextOld);
+		*/
+
+		//New Wine-compatible code doing it the hard way because we can't have nice things.
+		COLORREF cref = _SCIColorToCOLORREF(fUseForeground ? color : alternateColor);
+		BITMAP bitmap;
+		_penBitmap.GetObject(sizeof(bitmap), &bitmap);
+		uint8_t* bits = (uint8_t*)malloc(bitmap.bmWidthBytes * bitmap.bmHeight);
+		_penBitmap.GetBitmapBits(bitmap.bmWidthBytes * bitmap.bmHeight, bits);
+		int originX = point.x - penStyle.bPatternSize;
+		int originY = point.y - penStyle.bPatternSize;
+		for (int y = 0; y < bitmap.bmHeight; y++)
+		{
+			uint8_t *row = bits + y * bitmap.bmWidthBytes;
+			for (int x = 0; x < bitmap.bmWidth; x++)
+			{
+				if ((row[x / 8] & (0x80 >> (x % 8))) == 0)
+					pDC->SetPixelV(originX + x, originY + y, cref);
+			}
+		}
+		free(bits);
 	}
 }
 
