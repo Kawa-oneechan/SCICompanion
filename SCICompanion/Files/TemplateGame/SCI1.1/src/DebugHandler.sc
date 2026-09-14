@@ -7,9 +7,6 @@
 (use Main)
 (use Controls)
 (use Print)
-(use PolygonEdit)
-(use DialogEdit)
-(use FeatureWriter)
 (use Feature)
 (use SysWindow)
 (use User)
@@ -112,8 +109,6 @@
 								(= gOldCastFirst (gCast next: gOldCastFirst))
 							)
 						)
-						(KEY_ALT_b (PolyEdit doit:))
-						; Polygon editor
 						(KEY_ALT_y
 							; Show polygons
 							(= temp160 (gRoom obstacles?))
@@ -276,7 +271,6 @@
 							(Graph grUPDATE_BOX temp167 temp168 temp170 temp169 1)
 							(SetPort temp160)
 						)
-						(KEY_ALT_d (DialogEditor doit:))
 						(KEY_ALT_l
 							; Set flag
 							(= temp0 0)
@@ -388,10 +382,6 @@
 									ICONINDEX_CURITEM
 									ICONINDEX_INVENTORY
 							)
-						)
-						(KEY_ALT_w
-							; Feature writer
-							(FeatureWriter doit:)
 						)
 						(KEY_ALT_x (= gQuitGame 1))
 						; Quit

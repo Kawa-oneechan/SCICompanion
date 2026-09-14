@@ -1,0 +1,8 @@
+;;; Sierra Script 1.0 - (do not remove this comment)
+;;; 100.shp -- Produced by SCI Companion
+;;; This file should only be edited with the SCI Companion polygon editor
+
+
+(local
+	P_Default100 =  0
+)

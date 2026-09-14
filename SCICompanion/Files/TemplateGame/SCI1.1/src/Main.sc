@@ -15,6 +15,7 @@
 (use GameEgo)
 (use ScrollableInventory)
 (use ScrollInsetWindow)
+(use DColorButton)
 (use SpeakWindow)
 (use Print)
 (use DialogControls)
@@ -133,7 +134,6 @@
 	gState
 	gNewSpeakWindow
 	gWindow2
-	gDeathReason
 	gMusic1
 	gDongle =  1234             ; This variable CAN'T MOVE
 	gMusic2
@@ -324,12 +324,30 @@
 ; 	
 ; 	:param number theDeathReason: An arbitrary numerical value to be interpreted by the DeathRoom.sc script.
 (procedure (Die theDeathReason)
-	(if (not argc)
-		(= gDeathReason 1)
-	else
-		(= gDeathReason theDeathReason)
+	; TODO
+	(gGame setCursor: gNormalCursor true)
+	(repeat
+		(switch
+			(Print
+				font: gFont
+				addText: "lol. lmao even." 0 0
+				addButton: 1 {Restore} 0 32
+				addButton: 2 {Restart} 54 32
+				addButton: 3 {__Quit__} 108 32
+				init:
+			)
+			(1
+				(gGame restore:)
+			)
+			(2
+				(gGame restart:)
+			)
+			(3
+				(= gQuitGame true)
+				(break)
+			)
+		)
 	)
-	(gRoom newRoom: DEATH_SCRIPT)
 )
 
 ;	
@@ -418,10 +436,6 @@
 	(properties)
 )
 
-(instance egoStopWalk of FiddleStopWalk
-	(properties)
-)
-
 (instance ego of GameEgo
 	(properties)
 )
@@ -429,22 +443,11 @@
 (instance statusLineCode of Code
 	(properties)
 	
-	(method (doit &tmp [temp0 50] [temp50 50] temp100)
-		(= temp100 (GetPort))
-		(SetPort -1)
-		(Graph grFILL_BOX 0 0 10 320 VISUAL 5 -1 -1)
-		(Graph grUPDATE_BOX 0 0 10 320 VISUAL)
-		(Message msgGET 0 N_TITLEBAR 0 0 1 @temp0)
-		(Format @temp50 {%s %d} @temp0 gScore)
-		(Display @temp50 dsCOORD 4 0 dsFONT gFont dsCOLOR 6)
-		(Display @temp50 dsCOORD 6 2 dsFONT gFont dsCOLOR 4)
-		(Display @temp50 dsCOORD 5 1 dsFONT gFont dsCOLOR 0)
-		(Graph grDRAW_LINE 0 0 0 319 7 -1 -1)
-		(Graph grDRAW_LINE 0 0 9 0 6 -1 -1)
-		(Graph grDRAW_LINE 9 0 9 319 4 -1 -1)
-		(Graph grDRAW_LINE 0 319 9 319 3 -1 -1)
-		(Graph grUPDATE_BOX 0 0 10 319 VISUAL)
-		(SetPort temp100)
+	(method (doit &tmp [str 64] [fmt 64])
+		(Message msgGET 0 N_TITLEBAR 0 0 1 @fmt)
+		(Format @str @fmt gScore gMaxScore)
+		(DrawStatus @str 4 2)
+		; Remove the two numbers at the end for a black on white bar.
 	)
 )
 
@@ -543,7 +546,6 @@
 		(= gUseSortedFeatures TRUE)
 		(= gPolyphony (DoSound sndGET_POLYPHONY))
 		(= gMaxScore 5000)
-		(= gFont 1605)
 		(= gGEgoMoveSpeed 6)
 		(= gEatTheMice 30)
 		(= gTextReadSpeed 2)
@@ -552,7 +554,7 @@
 		(= gPseudoMouse PseudoMouse)
 		(gEgo setLoop: gStopGroop)
 		; The position of these font resource numbers correspond to font codes used in messages:
-		(TextFonts 1605 1605 1605 1605 1605 0)
+		(TextFonts 1 2 4 0)
 		; These correspond to color codes used in messages (values into global palette):
 		(TextColors 0 15 26 31 34 52 63)
 		(= gVersion {x.yyy.zzz})
@@ -658,9 +660,9 @@
 				width: 75
 				window: gWindow
 				mode: 1
-				addText: N_RESTART 0 0 1 0 0 0
-				addButton: 1 N_RESTART 0 0 3 0 20 0
-				addButton: 0 N_RESTART 0 0 4 40 20 0
+				addText: N_RESTART V_LOOK 0 1 0 0 0
+				addColorButton: 1 N_RESTART V_LOOK 0 2 0 40 0
+				addColorButton: 0 N_RESTART V_LOOK 0 3 0 50 0
 				init:
 			)
 		)
@@ -803,9 +805,9 @@
 				font: gFont
 				width: 75
 				mode: 1
-				addText: N_QUITMENU 0 0 1 0 0 0
-				addButton: 1 N_QUITMENU 0 0 3 0 20 0
-				addButton: 0 N_QUITMENU 0 0 4 40 20 0
+				addText: N_QUITMENU V_LOOK 0 1 0 0 0
+				addColorButton: 1 N_QUITMENU V_LOOK 0 2 0 25 0
+				addColorButton: 0 N_QUITMENU V_LOOK 0 3 0 35 0
 				init:
 			)
 		)

@@ -1,11 +1,8 @@
-// 0.shm -- Produced by SCI Companion
-// This file should only be edited with the SCI Companion message editor
+;;; Sierra Script
+;;; 0.shm -- Produced by SCI Companion
+;;; This file should only be edited with the SCI Companion message editor
 
-// CASES
-
-(define C_ABOUT 1)
-
-// NOUNS
+;;; NOUNS
 
 (define N_GAMEINFO 1)
 (define N_COMMANDICON 2)
@@ -38,4 +35,8 @@
 (define N_TITLEBAR 29)
 (define N_DELDD 30)
 (define N_MSGMODE 31)
+
+;;; CASES
+
+(define C_ABOUT 1)
 

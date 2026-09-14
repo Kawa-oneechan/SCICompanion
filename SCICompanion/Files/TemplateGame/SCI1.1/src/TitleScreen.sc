@@ -26,8 +26,6 @@
 	)
 	
 	(method (init)
-		; Set port to the entire screen, since our title image is 200px high.
-		(SetPort 0 0 200 320 0 0)
 		(if gDialog (gDialog dispose:))
 		(super init:)
 		(gOldMH addToFront: self)
@@ -39,8 +37,6 @@
 	)
 	
 	(method (dispose)
-		; Restore the port to standard size.
-		(SetPort 0 0 190 320 10 0)
 		(gIconBar hide: enable:)
 		(= gNormalCursor 999)
 		(gGame setCursor: 996 1)
@@ -76,20 +72,17 @@
 			(0 (= seconds 4))
 			; Wait 4 seconds before going to the next state.
 			(1
-				(= seconds 0)
+				(= seconds 0)				
 				(= gNormalCursor 999)
 				(gGame setCursor: 999 1)
 				(= theChoice
 					(Print
 						dialog: myDialog
-						font: gFont
 						width: 150
-						mode: alCENTER
-						addText: N_TITLEMENU V_LOOK 0 4 0 0 0
-						addText: N_TITLEMENU V_LOOK 0 5 0 10 0
-						addColorButton: 0 N_TITLEMENU V_LOOK 0 1 0 20 0 0 11 23 5 5 5
-						addColorButton: 1 N_TITLEMENU V_LOOK 0 2 0 30 0 0 11 23 5 5 5
-						addColorButton: 2 N_TITLEMENU V_LOOK 0 3 0 40 0 0 11 23 5 5 5
+						font: 4
+						addButton: 0 N_TITLEMENU V_LOOK 0 1 0 0 0
+						addButton: 1 N_TITLEMENU V_LOOK 0 2 0 16 0
+						addButton: 2 N_TITLEMENU V_LOOK 0 3 0 32 0
 						init:
 					)
 				)
