@@ -60,7 +60,7 @@ using namespace sci;
 // Handy functors
 //
 template<typename _T>
-struct FwdSave : unary_function<_T, void>
+struct FwdSave /* blackstar : unary_function<_T, void> */
 {
 public:
 	FwdSave(vector<BYTE> &output) : _output(output) {}

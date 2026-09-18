@@ -249,7 +249,7 @@ bool CompileContext::LookupDefine(const std::string &str, WORD &wValue)
 	}
 	else
 	{
-		std::unordered_map<std::string, DefinePtr>::const_iterator nodeIt = _localDefines.find(str);
+		std::map<std::string, DefinePtr>::const_iterator nodeIt = _localDefines.find(str);
 		fRet = (nodeIt != _localDefines.end());
 		if (fRet)
 		{

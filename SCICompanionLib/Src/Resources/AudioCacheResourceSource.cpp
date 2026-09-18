@@ -26,7 +26,7 @@
 #include "ResourceBlob.h"
 #include "ResourceMap.h"
 
-using namespace std::tr2;
+using namespace std::filesystem;
 
 // Tracks which cached audio files are currently up-to-date in the game's main resources.
 // Prevents us from having to rebuild resource.aud/sfx unnecessarily.
@@ -625,9 +625,9 @@ void RebuildFromAudioCacheFiles(SCIVersion version, const std::string &cacheSubf
 		entry.Offset = static_cast<uint32_t>(writeStream.tellp());
 		entry.SyncSize = 0;
 		// If it exists, open sync file and write it. Then take note of size. Then write audio.
-		if (sys::exists(sys::path(fullPathAudio)))
+		if (std::filesystem::exists(std::filesystem::path(fullPathAudio)))
 		{
-			if (!fullPathSync.empty() && sys::exists(sys::path(fullPathSync)))
+			if (!fullPathSync.empty() && std::filesystem::exists(std::filesystem::path(fullPathSync)))
 			{
 				std::ifstream syncFile;
 				syncFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);

@@ -179,7 +179,7 @@ WORD PushToStackIfAppropriate(CompileContext &context, int lineNumber)
 	return wBytes;
 }
 
-class PerformPreScan : public std::binary_function<IOutputByteCode*, CompileContext, void>
+class PerformPreScan /* blackstar : public std::binary_function<IOutputByteCode*, CompileContext, void> */
 {
 public:
 	PerformPreScan(CompileContext &context) : _context(context) {}
